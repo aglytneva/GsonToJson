@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gsontojson.R
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 
 class MainActivity : AppCompatActivity() {
@@ -14,19 +15,30 @@ class MainActivity : AppCompatActivity() {
 
         val gson = Gson()
 
-        val arrayTutorialType = object : TypeToken<Map<String,Any>>() {}.type
-        var result: Map<String, Any> = gson.fromJson(response, arrayTutorialType )
-        Log.e("LOG =>", result.toString())
+        //Конвертация из строки json в объекты
+        val resultObject = gson.fromJson(response, JsonModel::class.java )
+        Log.e("LOG =>", resultObject.toString())
 
+        val profileJsonString = gson.toJson(JsonObject().apply {
+            addProperty("dob", resultObject.profile.dob)
+            addProperty("name", resultObject.profile.name)
+            addProperty("address", resultObject.profile.address)
+            addProperty("company", resultObject.profile.company)
+            addProperty("location", gson.toJson(resultObject.profile.location))
+        })
 
-//        Вариант 1
-//        val result= gson.fromJson(response.trim(), JsonModel::class.java )
-
-//        Вариант 2
-//        val arrayTutorialType = object : TypeToken<JsonModel<ProfileModel<LocationModel>>>() {}.type
-//        var result: JsonModel<ProfileModel<LocationModel>> = gson.fromJson(response, arrayTutorialType )
-
-
+        //Конвертация объектов в строку Json
+        val resultJsonString =gson.toJson(JsonObject().apply {
+            addProperty("id", resultObject.id)
+            addProperty("email", resultObject.email)
+            addProperty("roles", gson.toJson((resultObject.roles)))
+            addProperty("apiKey", resultObject.apiKey)
+            addProperty("profile", profileJsonString)
+            addProperty("username", resultObject.username)
+            addProperty("createdAt", resultObject.createdAt)
+            addProperty("updatedAt", resultObject.updatedAt)
+        })
+         Log.e("LOG =>", resultJsonString)
     }
 }
 

@@ -2,7 +2,7 @@ package com.example.gsontojson.homework
 
 import com.google.gson.annotations.SerializedName
 
-data class JsonModel<T>(
+data class JsonModel(
     @SerializedName("id")
     val id:String,
 
@@ -13,10 +13,10 @@ data class JsonModel<T>(
     val roles:List<String>?,
 
     @SerializedName("apiKey")
-    val apiKey:List<String>,
+    val apiKey:String,
 
     @SerializedName("profile")
-     val profile: ProfileModel<Any?>,
+     val profile: ProfileModel,
 
     @SerializedName("username")
     val username:String?,
