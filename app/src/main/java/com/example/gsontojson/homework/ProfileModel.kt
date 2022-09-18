@@ -3,7 +3,7 @@ package com.example.gsontojson.homework
 import com.google.gson.annotations.SerializedName
 
 
-data class ProfileModel<T>(
+data class ProfileModel(
     @SerializedName("dob")
     val dob:String,
 
@@ -20,5 +20,5 @@ data class ProfileModel<T>(
     val company:String,
 
     @SerializedName("location")
-    val location: LocationModel,
+    val location: LocationModel
 )
